@@ -1,4 +1,4 @@
-package youtube_step_by_step.dto;
+package dasturlash.uz.dto;
 
 import lombok.Getter;
 import lombok.Setter;
