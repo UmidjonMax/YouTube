@@ -1,9 +1,9 @@
-package youtube_step_by_step.service;
+package dasturlash.uz.service;
 
+import dasturlash.uz.dto.CategoryDTO;
+import dasturlash.uz.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import youtube_step_by_step.dto.CategoryDTO;
-import youtube_step_by_step.repository.CategoryRepository;
 
 @Service
 public class CategoryService {
