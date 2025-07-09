@@ -1,0 +1,31 @@
+### CREATE CATEGORY (ADMIN)
+POST http://localhost:8082/api/category/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDAxODAwMDAsImV4cCI6MTc5MDA4MDAwMH0.1234567890abcdef
+
+{
+  "name": "Education"
+}
+
+###
+
+### UPDATE CATEGORY (ADMIN)
+PUT http://localhost:8080/api/category/update/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDAxODAwMDAsImV4cCI6MTc5MDA4MDAwMH0.1234567890abcdef
+
+{
+  "name": "Science & Technology"
+}
+
+###
+
+### DELETE CATEGORY (ADMIN)
+DELETE http://localhost:8080/api/category/delete/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDAxODAwMDAsImV4cCI6MTc5MDA4MDAwMH0.1234567890abcdef
+
+###
+
+### GET CATEGORY LIST (PUBLIC)
+GET http://localhost:8080/api/category/list
+Content-Type: application/json

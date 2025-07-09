@@ -2,10 +2,11 @@ package dasturlash.uz.service;
 
 import dasturlash.uz.dto.profile.CreateProfileDTO;
 import dasturlash.uz.entity.ProfileEntity;
+import dasturlash.uz.exceptions.AppBadException;
 import dasturlash.uz.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import youtube_step_by_step.exceptions.AppBadException;
+
 
 import java.util.Optional;
 
