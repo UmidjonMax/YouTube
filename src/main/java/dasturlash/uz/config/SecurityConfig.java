@@ -19,6 +19,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-    //salomat boling
 }
