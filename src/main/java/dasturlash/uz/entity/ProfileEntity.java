@@ -1,10 +1,11 @@
 package dasturlash.uz.entity;
 
-import dasturlash.uz.enums.ProfileRoleEnum;
 import dasturlash.uz.enums.ProfileStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,8 +23,8 @@ public class ProfileEntity {
     private String email;
     private String password;
     private String photoUrl;
-    @Enumerated(EnumType.STRING)
-    private ProfileRoleEnum role;
+    @OneToMany(mappedBy = "profile")
+    private List<ProfileRoleEntity> roleList;
     @Enumerated(EnumType.STRING)
     private ProfileStatusEnum status;
 }
