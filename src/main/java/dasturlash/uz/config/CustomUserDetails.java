@@ -11,16 +11,16 @@ import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
-    private Integer id;
-    private String username;
+    private String id;
+    private String email;
     private String password;
     private ProfileStatusEnum status;
     private List<SimpleGrantedAuthority> roles;
 
-    public CustomUserDetails(Integer id, String username, String password, ProfileStatusEnum status,
+    public CustomUserDetails(String id, String email, String password, ProfileStatusEnum status,
                              List<ProfileRoleEnum> roleList) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
         this.status = status;
 
@@ -43,7 +43,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 }

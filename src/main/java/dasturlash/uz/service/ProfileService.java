@@ -6,6 +6,7 @@ import dasturlash.uz.entity.ProfileEntity;
 import dasturlash.uz.enums.ProfileStatusEnum;
 import dasturlash.uz.exceptions.AppBadException;
 import dasturlash.uz.repository.ProfileRepository;
+import dasturlash.uz.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +37,25 @@ public class ProfileService {
     }
 
     public GetProfileDTO getDetails(){
-        return null;
+        Optional<ProfileEntity> entity = profileRepository.findById(SecurityUtil.currentProfileId());
+        if (entity.isEmpty()) {
+            throw new AppBadException("Profile not found");
+        }
+        ProfileEntity profileEntity = entity.get();
+        return toGetDTO(profileEntity);
     }
 
+
+
+    public GetProfileDTO toGetDTO(ProfileEntity entity){
+        GetProfileDTO dto = new GetProfileDTO();
+        dto.setId(entity.getId());
+        dto.setEmail(entity.getEmail());
+        dto.setName(entity.getName());
+        dto.setSurname(entity.getSurname());
+        dto.setPhotoUrl(entity.getPhotoUrl());
+        return dto;
+    }
     public CreateProfileDTO toDTO(ProfileEntity entity) {
         CreateProfileDTO dto = new CreateProfileDTO();
         dto.setEmail(entity.getEmail());
