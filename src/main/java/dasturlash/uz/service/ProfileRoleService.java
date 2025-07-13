@@ -34,7 +34,7 @@ public class ProfileRoleService {
         entity.setRoles(role);
         profileRoleRepository.save(entity);
     }
-    public void deleteRolesByProfileId(Integer profileId) {
+    public void deleteRolesByProfileId(String profileId) {
         profileRoleRepository.deleteByProfileId(profileId);
     }
 
