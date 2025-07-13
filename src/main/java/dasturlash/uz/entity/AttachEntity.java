@@ -18,4 +18,5 @@ public class AttachEntity {
     private String type;
     private String path;
     private Long duration;
+
 }
