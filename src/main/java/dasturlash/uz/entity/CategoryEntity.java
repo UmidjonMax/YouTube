@@ -1,4 +1,4 @@
-package youtube_step_by_step.entity;
+package dasturlash.uz.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "category")
 public class CategoryEntity {
-
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "name")

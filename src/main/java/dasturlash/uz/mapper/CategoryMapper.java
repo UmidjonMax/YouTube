@@ -1,4 +1,4 @@
-package youtube_step_by_step.mapper;
+package dasturlash.uz.mapper;
 
 import java.time.LocalDateTime;
 

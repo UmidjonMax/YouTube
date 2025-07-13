@@ -1,22 +1,22 @@
 package dasturlash.uz.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
+@Table(name = "attach")
 public class AttachEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    private String originalName;
-    private String extension;
+    @Column(name = "origin_name")
+    private String originName;
     private Long size;
+    private String type;
     private String path;
-    private String contentType;
-    private LocalDateTime createdDate;
+    private Long duration;
+
 }
