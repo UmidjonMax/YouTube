@@ -1,6 +1,9 @@
 package dasturlash.uz.service;
 
 
+import dasturlash.uz.dto.JWTDTO;
+import dasturlash.uz.dto.auth.LoginDTO;
+import dasturlash.uz.dto.auth.LoginResponseDTO;
 import dasturlash.uz.dto.auth.RegistrationDTO;
 import dasturlash.uz.entity.ProfileEntity;
 import dasturlash.uz.enums.ProfileRoleEnum;
@@ -32,10 +35,10 @@ public class AuthService {
     private EmailHistoryService emailHistoryService;
 
 
-    public String register(RegistrationDTO dto){
+    public String register(RegistrationDTO dto) {
         Optional<ProfileEntity> existOpt = profileRepository.findByEmail(dto.getEmail());
-        if(existOpt.isPresent()){
-                throw new AppBadException("Username already in use");
+        if (existOpt.isPresent()) {
+            throw new AppBadException("Username already in use");
         }
         //create
         ProfileEntity profile = new ProfileEntity();
@@ -54,46 +57,44 @@ public class AuthService {
             emailSenderService.sendRegistrationEmail(profile.getEmail());
         }
         //response
-        return  "Tasdiqlash kodi ketdi";
+        return "Tasdiqlash kodi ketdi";
     }
 
-    public ProfileDTO login(ProfileLoginDTO dto){
-        Optional<ProfileEntity> existOpt = profileRepository.findByUsernameAndVisibleIsTrue(dto.getUsername());
-        if(existOpt.isEmpty()){
+    public LoginResponseDTO login(LoginDTO dto) {
+        Optional<ProfileEntity> existOpt = profileRepository.findByEmail(dto.getEmail());
+        if (existOpt.isEmpty()) {
             throw new AppBadException("Username or password is incorrect");
         }
         ProfileEntity existProfile = existOpt.get();
-        if (!bCryptPasswordEncoder.matches(dto.getPassword(), existProfile.getPassword())){
+        if (!bCryptPasswordEncoder.matches(dto.getPassword(), existProfile.getPassword())) {
             throw new AppBadException("Username or password is incorrect");
         }
-        if (existProfile.getStatus().equals(ProfileStatusEnum.BLOCKED)){
+        if (existProfile.getStatus().equals(ProfileStatusEnum.BLOCKED)) {
             throw new AppBadException("Username is blocked");
         }
-        if (existProfile.getStatus().equals(ProfileStatusEnum.NOT_ACTIVE)){
+        if (existProfile.getStatus().equals(ProfileStatusEnum.NOT_ACTIVE)) {
             throw new AppBadException("Activate your profile");
         }
-        ProfileDTO profiledto = new ProfileDTO();
+        LoginResponseDTO profiledto = new LoginResponseDTO();
         profiledto.setName(existProfile.getName());
         profiledto.setSurname(existProfile.getSurname());
-        profiledto.setUsername(existProfile.getUsername());
-        profiledto.setRoleList(profileRoleService.getByProfileId(existProfile.getId()));
-        profiledto.setJwt(JWTUtil.encodeUsernameAndRole(existProfile.getUsername(), profiledto.getRoleList()));
+        profiledto.setEmail(existProfile.getEmail());
+        profiledto.setJwt(JWTUtil.encodeUsernameAndRole(existProfile.getEmail(), profiledto.getRoles()));
         return profiledto;
     }
 
     public String regVerification(String jwt) {
-        JwtDTO jwtDTO = null;
+        JWTDTO jwtDTO = null;
         try {
-            jwtDTO = JWTUtil.decodeUsernameAndRoles(jwt);
+            jwtDTO = JWTUtil.decodeUsernameAndRole(jwt);
         } catch (ExpiredJwtException e) {
             throw new AppBadException("JWT Expired");
         } catch (JwtException e) {
             throw new AppBadException("JWT Not Valid");
         } // decode qilish
-        String username = jwtDTO.getUsername();
-        Integer code = jwtDTO.getCode();
+        String email = jwtDTO.getEmail();
 
-        Optional<ProfileEntity> existOptional = profileRepository.findByUsernameAndVisibleIsTrue(username);
+        Optional<ProfileEntity> existOptional = profileRepository.findByEmail(email);
         if (existOptional.isEmpty()) {
             throw new AppBadException("Username not found");
         }
@@ -102,10 +103,11 @@ public class AuthService {
             throw new AppBadException("Username in wrong status");
         }
         // sms code ni tekshirish
-        if (emailHistoryService.isSmsSendToAccount(username, code)) {
+        if (emailHistoryService.isSmsSendToAccount(email)) {
             profile.setStatus(ProfileStatusEnum.ACTIVE);
             profileRepository.save(profile);
             return "Verification successfully completed";
         }
         throw new AppBadException("Not completed");
     }
+}

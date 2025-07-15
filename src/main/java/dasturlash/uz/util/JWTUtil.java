@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -44,10 +45,10 @@ public class JWTUtil {
         return jwtDTO;
     }
 
-    public static String encodeUsernameAndRole(String email, ProfileRoleEnum role) {
+    public static String encodeUsernameAndRole(String email, List<ProfileRoleEnum> roles) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", email);
-        claims.put("role", role);
+        claims.put("roles", roles);
         return Jwts
                 .builder()
                 .claims(claims)
@@ -66,10 +67,10 @@ public class JWTUtil {
                 .parseSignedClaims(token)
                 .getPayload();
         String username = claims.getSubject();
-        ProfileRoleEnum role = (ProfileRoleEnum) claims.get("role");
+        List<ProfileRoleEnum> roles = (List<ProfileRoleEnum>) claims.get("role");
         JWTDTO jwtDTO = new JWTDTO();
         jwtDTO.setEmail(username);
-        jwtDTO.setRole(role);
+        jwtDTO.setRole(roles);
         return jwtDTO;
     }
 

@@ -7,10 +7,12 @@ import dasturlash.uz.enums.ProfileStatusEnum;
 import dasturlash.uz.exceptions.AppBadException;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.util.SecurityUtil;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class ProfileService {
@@ -24,6 +26,7 @@ public class ProfileService {
         if (optional.isPresent()) {
             throw new AppBadException("User already exists");
         }
+
         ProfileEntity profileEntity = new ProfileEntity();
         profileEntity.setEmail(dto.getEmail());
         profileEntity.setName(dto.getName());
