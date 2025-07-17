@@ -20,7 +20,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(dto));
     }
 
-
     @GetMapping("/registration/email/verification/{jwt}")
     public ResponseEntity<String> registration(@PathVariable("jwt") String jwt) {
         return ResponseEntity.ok(authService.regVerification(jwt));
